@@ -1,7 +1,21 @@
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+
+/**
+* prints out the command line prompt
+* returns a char array where the first element is the exectuable command and the second is the rest of the args
+**/
+int parseInput(char inBuff[], char ** cmd, char ** args) {
+
+  // STDIN_FILENO?
+  // parse it
+  *cmd = strtok(inBuff, " ");
+  *args = strtok(NULL, "");\
+  return 0;
+}
 
 int main (int argc, char** argv){
 
@@ -10,6 +24,8 @@ int main (int argc, char** argv){
     pid_t cpid;
     pid_t pid = getpid();
     char b[BUF_MAX];
+    char * cmd;
+    char * args;
     //
     // get the parent process id
     printf("\n-------\n");
@@ -18,13 +34,19 @@ int main (int argc, char** argv){
     int count = 0;
     while (++count <= 10) {
         sleep(1);
-        printf ("\nLoop %d\n", count); 
+        printf ("\nLoop %d\n", count);
 //        printf ("$");
-        
+
+        // print the prompt
+        printf("$> ");
         // read line
-        // STDIN_FILENO	    
+        scanf("%1024[^\n]", b);
+        // read line
+        // STDIN_FILENO
         // parse it
-        char* path = "/bin/ls";
+        parseInput(b, &cmd, &args);
+
+        printf("the command is... %s\n", cmd);
 
         // if it's EXIT exit
         cpid = fork();
